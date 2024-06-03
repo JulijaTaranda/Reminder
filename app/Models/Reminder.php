@@ -9,6 +9,6 @@ class Reminder extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'message', 'reminder_time'];
-    public $timestamps = false;// Отключение использования временных меток для создания и обновления
+    protected $fillable = ['email', 'message'];
+    public $timestamps = false;//Disabling the usage of timestamps for creation and updating
 }

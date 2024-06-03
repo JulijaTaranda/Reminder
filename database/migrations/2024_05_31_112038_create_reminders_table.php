@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('email');
             $table->string('message');
-            $table->timestamp('reminder_time');
         });
     }
 

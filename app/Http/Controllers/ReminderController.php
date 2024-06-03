@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reminder;
-use Carbon\Carbon;
+use App\Jobs\SendReminder;
 
 class ReminderController extends Controller
 {
-    //All reminders from db
+    //All reminders from database
     public function index() {
         $reminders = Reminder::all();
         return view('reminder.index', compact('reminders'));
@@ -19,23 +19,24 @@ class ReminderController extends Controller
         return view('reminder.create');
     }
 
-    //Store new created remind
+    //Store new created reminder to database
     public function store(Request $request) {
 
-        // Form input validation
+        // Input validation (data from Form)
         $request->validate([
             'email' => 'required|email',
             'message' => 'required|string',
-            'reminder_time' => 'required|date|after:now',
         ]);
 
-        //Store new remind in db
-        Reminder::create([
+        //Store new reminder in db
+        $reminder = Reminder::create([
             'email' => $request->email,
             'message' => $request->message,
-            'reminder_time' => new Carbon($request->reminder_time),
         ]);
 
+        //Send reminder to be queued for task execution (email sending)
+        SendReminder::dispatch($reminder)->onQueue('default');
         return redirect()->route('reminders.index');
+        
     }
 }

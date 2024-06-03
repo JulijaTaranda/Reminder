@@ -13,9 +13,6 @@
         <label for="message">Message:</label>
         <input type="text" id="message" name="message" required>
         <br>
-        <label for="reminder_time">Reminder Time:</label>
-        <input type="datetime-local" id="reminder_time" name="reminder_time" required>
-        <br>
         <button type="submit">Create Reminder</button>
     </form>
 </body>
